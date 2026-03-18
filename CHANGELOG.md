@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented in this file.
 
+## [v2.0.0] - 2026-03-18
+
+### Summary
+Second version of the Event Registration project that adds a college abstraction around the graduation ceremony event while keeping the registration workflow intact.
+
+### Highlights
+- Added `College` and `MyCollege` to model the ceremony as part of a college.
+- Updated Spring XML to wire `myCollege`, `graduationCeremonyEvent`, and the prototype attendee bean together.
+- Updated the console flow to welcome the user with the configured college name.
+- Added tests for the new college layer and updated documentation for the revised flow.
+
+### Notes
+This version extends the event model by introducing a college-owned ceremony while preserving the same attendee registration behavior from `v1`.
+
 ## [v1.0.0] - 2026-03-18
 
 ### Summary

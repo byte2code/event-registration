@@ -15,9 +15,10 @@ public class EventRegistrationWorkflow {
     }
 
     public void run() {
-        System.out.println("Welcome to the Graduation Ceremony Registration Application");
+        College college = context.getBean("myCollege", College.class);
+        System.out.println("Welcome to the Graduation Ceremony Registration Application for " + college.getCollegeName());
 
-        CollegeEvent event = context.getBean("event", CollegeEvent.class);
+        CollegeEvent event = college.getEvent();
         event.printEventDetails();
 
         while (true) {

@@ -1,10 +1,10 @@
 # Event Registration
 
-Event Registration is a Java 17 console application that uses Spring XML bean configuration to register alumni for a graduation ceremony.
+Event Registration is a Java 17 console application that uses Spring XML bean configuration to register alumni for a graduation ceremony. In `v2`, the project introduces a college-level abstraction so the ceremony is registered through a Spring-wired college object.
 
 ## GitHub Metadata
 
-- Suggested repository description: `Java 17 Spring console app for graduation ceremony registration using XML-based dependency injection.`
+- Suggested repository description: `Java 17 Spring console app for graduation ceremony registration with Spring XML wiring, college abstraction, and attendee enrollment flow.`
 - Suggested topics: `java`, `java-17`, `spring-framework`, `spring`, `maven`, `xml-configuration`, `dependency-injection`, `junit5`, `oop`, `console-application`, `event-registration`, `learning-project`, `portfolio-project`
 
 ## Tech Stack
@@ -20,32 +20,34 @@ The application models a simple graduation-ceremony registration flow:
 
 - `StudentAttendee` implements the `Attendee` interface.
 - `GraduationCeremonyEvent` implements the `CollegeEvent` interface.
+- `MyCollege` implements the new `College` interface and owns the event.
 - `EventRegistrationWorkflow` manages console interaction and validation.
-- `applicationContext.xml` wires the event bean and prototype attendee bean.
+- `applicationContext.xml` wires the college, event, and prototype attendee beans.
 
 ## Current Flow
 
 1. The application starts in `EventRegistrationApplication`.
 2. Spring loads `applicationContext.xml`.
-3. The app prints the graduation-ceremony event details.
-4. The user decides whether to register.
-5. If yes, the app collects attendee name, department, and pass-out year.
-6. The attendee is registered with the event.
-7. The app prints a confirmation message and, at the end, a summary list of attendees.
+3. The app fetches the configured college and prints a welcome message using the college name.
+4. The app prints the graduation-ceremony event details from the college's event.
+5. The user decides whether to register.
+6. If yes, the app collects attendee name, department, and pass-out year.
+7. The attendee is registered with the event.
+8. The app prints a confirmation message and, at the end, a summary list of attendees.
 
 ## Flow Diagram
 
 ```mermaid
 flowchart TD
     A["Start: EventRegistrationApplication.main()"] --> B["Load Spring XML context<br/>applicationContext.xml"]
-    B --> C["Print graduation event details"]
-    C --> D["Show registration menu"]
+    B --> C["Load myCollege bean"]
+    C --> D["Print college-specific welcome message"]
     D --> E{"Register?"}
     E -->|"Yes"| F["Collect attendee name, department, batch"]
     E -->|"No"| H["Print registration summary"]
     E -->|"Invalid"| I["Show invalid choice and retry"]
     I --> D
-    F --> G["Register attendee and print confirmation"]
+    F --> G["Register attendee through the college event"]
     G --> D
     H --> J["Print attendee list and end"]
 ```
@@ -63,7 +65,7 @@ If you prefer the Maven Wrapper, use `mvnw.cmd` on Windows or `./mvnw` on Unix-l
 ## Sample Output
 
 ```text
-Welcome to the Graduation Ceremony Registration Application
+Welcome to the Graduation Ceremony Registration Application for Springfield College
 The Graduation Ceremony details are as follows:
 Venue: Auditorium
 Time: 10AM
@@ -93,3 +95,4 @@ This repository is intended as a learning and portfolio project that shows:
 - prototype bean usage
 - console workflow handling
 - automated tests for wiring and registration flow
+- progression from a direct event bean in `v1` to a college-owned event model in `v2`

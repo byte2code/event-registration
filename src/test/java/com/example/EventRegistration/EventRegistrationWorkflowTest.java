@@ -21,7 +21,7 @@ class EventRegistrationWorkflowTest {
 
             String output = ConsoleTestSupport.captureOutput(workflow::run);
 
-            assertTrue(output.contains("Welcome to the Graduation Ceremony Registration Application"));
+            assertTrue(output.contains("Welcome to the Graduation Ceremony Registration Application for Springfield College"));
             assertTrue(output.contains("Hi Bipin, your registration for the Graduation Ceremony is successful"));
             assertTrue(output.contains("No. of attendees registered are: 1"));
             assertTrue(output.contains("Bipin    Reference id: @"));
