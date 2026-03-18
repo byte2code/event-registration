@@ -1,10 +1,10 @@
 # Event Registration
 
-Event Registration is a Java 17 console application that uses Spring XML bean configuration to register alumni for a graduation ceremony. In `v2`, the project introduces a college-level abstraction so the ceremony is registered through a Spring-wired college object.
+Event Registration is a Java 17 console application that uses Spring XML bean configuration to register alumni for a graduation ceremony. In `v3`, the project keeps the college-owned event model from `v2` and adds explicit Spring bean lifecycle hooks for the main managed objects.
 
 ## GitHub Metadata
 
-- Suggested repository description: `Java 17 Spring console app for graduation ceremony registration with Spring XML wiring, college abstraction, and attendee enrollment flow.`
+- Suggested repository description: `Java 17 Spring console app for graduation ceremony registration with Spring XML lifecycle hooks, college abstraction, and attendee enrollment flow.`
 - Suggested topics: `java`, `java-17`, `spring-framework`, `spring`, `maven`, `xml-configuration`, `dependency-injection`, `junit5`, `oop`, `console-application`, `event-registration`, `learning-project`, `portfolio-project`
 
 ## Tech Stack
@@ -22,7 +22,7 @@ The application models a simple graduation-ceremony registration flow:
 - `GraduationCeremonyEvent` implements the `CollegeEvent` interface.
 - `MyCollege` implements the new `College` interface and owns the event.
 - `EventRegistrationWorkflow` manages console interaction and validation.
-- `applicationContext.xml` wires the college, event, and prototype attendee beans.
+- `applicationContext.xml` wires the college, event, and prototype attendee beans, including custom init and destroy callbacks in `v3`.
 
 ## Current Flow
 
@@ -33,7 +33,8 @@ The application models a simple graduation-ceremony registration flow:
 5. The user decides whether to register.
 6. If yes, the app collects attendee name, department, and pass-out year.
 7. The attendee is registered with the event.
-8. The app prints a confirmation message and, at the end, a summary list of attendees.
+8. Spring lifecycle methods print bean creation and shutdown messages for the managed beans.
+9. The app prints a confirmation message and, at the end, a summary list of attendees.
 
 ## Flow Diagram
 
@@ -41,15 +42,16 @@ The application models a simple graduation-ceremony registration flow:
 flowchart TD
     A["Start: EventRegistrationApplication.main()"] --> B["Load Spring XML context<br/>applicationContext.xml"]
     B --> C["Load myCollege bean"]
-    C --> D["Print college-specific welcome message"]
-    D --> E{"Register?"}
-    E -->|"Yes"| F["Collect attendee name, department, batch"]
-    E -->|"No"| H["Print registration summary"]
-    E -->|"Invalid"| I["Show invalid choice and retry"]
-    I --> D
-    F --> G["Register attendee through the college event"]
-    G --> D
-    H --> J["Print attendee list and end"]
+    C --> D["Run init methods for college and event beans"]
+    D --> E["Print college-specific welcome message"]
+    E --> F{"Register?"}
+    F -->|"Yes"| G["Collect attendee name, department, batch"]
+    F -->|"No"| I["Print registration summary"]
+    F -->|"Invalid"| J["Show invalid choice and retry"]
+    J --> E
+    G --> H["Register attendee through the college event"]
+    H --> E
+    I --> K["Close context and run destroy methods"]
 ```
 
 ## How To Run
@@ -65,7 +67,9 @@ If you prefer the Maven Wrapper, use `mvnw.cmd` on Windows or `./mvnw` on Unix-l
 ## Sample Output
 
 ```text
-Welcome to the Graduation Ceremony Registration Application for Springfield College
+MyCollege bean created!!
+Graduation Ceremony bean created!!
+Welcome to the Graduation Ceremony Registration Application for IIT Bombay
 The Graduation Ceremony details are as follows:
 Venue: Auditorium
 Time: 10AM
@@ -96,3 +100,4 @@ This repository is intended as a learning and portfolio project that shows:
 - console workflow handling
 - automated tests for wiring and registration flow
 - progression from a direct event bean in `v1` to a college-owned event model in `v2`
+- bean lifecycle callbacks with Spring `init-method` and `destroy-method` in `v3`

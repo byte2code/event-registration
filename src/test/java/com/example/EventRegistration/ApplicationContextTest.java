@@ -17,12 +17,26 @@ class ApplicationContextTest {
             Attendee firstStudent = context.getBean("student", Attendee.class);
             Attendee secondStudent = context.getBean("student", Attendee.class);
 
-            assertEquals("Springfield College", college.getCollegeName());
+            assertEquals("IIT Bombay", college.getCollegeName());
             assertNotNull(college.getEvent());
             assertNotNull(event);
             assertNotNull(firstStudent);
             assertNotNull(secondStudent);
             assertTrue(firstStudent != secondStudent);
         }
+    }
+
+    @Test
+    void printsLifecycleMessagesWhenContextStartsAndStops() {
+        String output = ConsoleTestSupport.captureOutput(() -> {
+            try (ClassPathXmlApplicationContext ignored = new ClassPathXmlApplicationContext("applicationContext.xml")) {
+                // lifecycle messages are printed by init and destroy methods
+            }
+        });
+
+        assertTrue(output.contains("Graduation Ceremony bean created!!"));
+        assertTrue(output.contains("MyCollege bean created!!"));
+        assertTrue(output.contains("MyCollege bean destroyed"));
+        assertTrue(output.contains("Graduation Ceremony bean destroyed"));
     }
 }

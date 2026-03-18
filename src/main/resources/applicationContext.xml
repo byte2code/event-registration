@@ -6,14 +6,16 @@
 <!--    1. Create a StudentAttendee bean with id "student" and prototype scope.-->
 <!--    2. Create a GraduationCeremonyEvent bean with id "event" and inject the student bean in it using setter injection.-->
 
-    <bean id="studentAttendee" class="com.example.EventRegistration.StudentAttendee" scope="prototype"/>
+    <bean id="studentAttendee" class="com.example.EventRegistration.StudentAttendee" scope="prototype" init-method="init"/>
     <alias name="studentAttendee" alias="student"/>
 
-    <bean id="graduationCeremonyEvent" class="com.example.EventRegistration.GraduationCeremonyEvent">
+    <bean id="graduationCeremonyEvent" class="com.example.EventRegistration.GraduationCeremonyEvent"
+          init-method="init" destroy-method="destroy">
         <property name="attendee" ref="student"/>
     </bean>
 
-    <bean id="myCollege" class="com.example.EventRegistration.MyCollege">
+    <bean id="myCollege" class="com.example.EventRegistration.MyCollege"
+          init-method="init" destroy-method="destroy">
         <property name="collegeEvent" ref="graduationCeremonyEvent"/>
     </bean>
 </beans>

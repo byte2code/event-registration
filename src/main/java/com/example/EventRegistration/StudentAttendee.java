@@ -14,6 +14,10 @@ public class StudentAttendee implements Attendee {
     private int batch;
     private String department;
 
+    public void init() {
+        System.out.println("StudentAttendee bean created!!");
+    }
+
     @Override
     public void setAttendeeDetails(String name, String department, int batch) {
         this.name = name;

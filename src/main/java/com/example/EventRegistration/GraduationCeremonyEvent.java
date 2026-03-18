@@ -77,6 +77,14 @@ public class GraduationCeremonyEvent implements CollegeEvent {
 
     private Attendee attendee;
 
+    public void init() {
+        System.out.println("Graduation Ceremony bean created!!");
+    }
+
+    public void destroy() {
+        System.out.println("Graduation Ceremony bean destroyed");
+    }
+
     @Override
     public void registerStudent(Attendee user) {
         eventAttendees.add(user);

@@ -14,7 +14,7 @@ class MyCollegeTest {
 
         college.setCollegeEvent(event);
 
-        assertEquals("Springfield College", college.getCollegeName());
+        assertEquals("IIT Bombay", college.getCollegeName());
         assertSame(event, college.getEvent());
     }
 }

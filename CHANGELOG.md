@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented in this file.
 
+## [v3.0.0] - 2026-03-18
+
+### Summary
+Third version of the Event Registration project that keeps the college-owned ceremony model from `v2` and adds custom Spring lifecycle callbacks for the managed beans.
+
+### Highlights
+- Added `init()` lifecycle methods for `StudentAttendee`, `GraduationCeremonyEvent`, and `MyCollege`.
+- Added `destroy()` lifecycle methods for `GraduationCeremonyEvent` and `MyCollege`.
+- Updated Spring XML to use `init-method` and `destroy-method` attributes.
+- Updated the configured college name to `IIT Bombay` to reflect the new template version.
+- Expanded tests and documentation to cover lifecycle behavior and the updated welcome flow.
+
+### Notes
+This version focuses on Spring bean lifecycle management while preserving the registration behavior introduced in `v2`.
+
 ## [v2.0.0] - 2026-03-18
 
 ### Summary
